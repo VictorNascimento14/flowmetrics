@@ -14,10 +14,10 @@
    </tr>
    <tr>
       <td align="center">
-         <img src="CAMINHO/IMAGEM1.png" width="400" alt="Dashboard" />
+         <img src="/demo1.png" width="400" alt="Dashboard" />
       </td>
       <td align="center">
-         <img src="CAMINHO/IMAGEM2.png" width="400" alt="Planejador" />
+         <img src="/demo2.png" width="400" alt="Planejador" />
       </td>
    </tr>
    <tr>
@@ -26,10 +26,10 @@
    </tr>
    <tr>
       <td align="center">
-         <img src="CAMINHO/IMAGEM3.png" width="400" alt="Cursos" />
+         <img src="/demo3.png" width="400" alt="Cursos" />
       </td>
       <td align="center">
-         <img src="CAMINHO/IMAGEM4.png" width="400" alt="Modo Escuro" />
+         <img src="/demo4.png" width="400" alt="Modo Escuro" />
       </td>
    </tr>
 </table>
