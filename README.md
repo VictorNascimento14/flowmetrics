@@ -5,14 +5,34 @@
   <p><b>Plataforma de análise de dados e geração de insights para equipes, com foco em produtividade e inteligência artificial.</b></p>
 </div>
 
-## Demonstrações
+## Demonstração
 
-<div align="center">
-  <img src="CAMINHO/IMAGEM1.png" width="400" alt="Demonstração 1" />
-  <img src="CAMINHO/IMAGEM2.png" width="400" alt="Demonstração 2" />
-  <img src="CAMINHO/IMAGEM3.png" width="400" alt="Demonstração 3" />
-  <img src="CAMINHO/IMAGEM4.png" width="400" alt="Demonstração 4" />
-</div>
+<table>
+   <tr>
+      <th>Dashboard</th>
+      <th>Planejador</th>
+   </tr>
+   <tr>
+      <td align="center">
+         <img src="CAMINHO/IMAGEM1.png" width="400" alt="Dashboard" />
+      </td>
+      <td align="center">
+         <img src="CAMINHO/IMAGEM2.png" width="400" alt="Planejador" />
+      </td>
+   </tr>
+   <tr>
+      <th>Cursos</th>
+      <th>Modo Escuro</th>
+   </tr>
+   <tr>
+      <td align="center">
+         <img src="CAMINHO/IMAGEM3.png" width="400" alt="Cursos" />
+      </td>
+      <td align="center">
+         <img src="CAMINHO/IMAGEM4.png" width="400" alt="Modo Escuro" />
+      </td>
+   </tr>
+</table>
 
 ## Sobre o Projeto
 
