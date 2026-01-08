@@ -14,10 +14,10 @@
    </tr>
    <tr>
       <td align="center">
-         <img src="/demo1.png" width="400" alt="Dashboard" />
+         <img src="/public/demo1.png" width="400" alt="Dashboard" />
       </td>
       <td align="center">
-         <img src="/demo2.png" width="400" alt="Planejador" />
+         <img src="/public/demo2.png" width="400" alt="Planejador" />
       </td>
    </tr>
    <tr>
@@ -26,10 +26,22 @@
    </tr>
    <tr>
       <td align="center">
-         <img src="/demo3.png" width="400" alt="Cursos" />
+         <img src="/public/demo3.png" width="400" alt="Cursos" />
       </td>
       <td align="center">
-         <img src="/demo4.png" width="400" alt="Modo Escuro" />
+         <img src="/public/demo4.png" width="400" alt="Modo Escuro" />
+      </td>
+   </tr>
+  <tr>
+      <th>Cursos</th>
+      <th>Modo Escuro</th>
+   </tr>
+   <tr>
+      <td align="center">
+         <img src="/public/demo3.png" width="400" alt="Cursos" />
+      </td>
+      <td align="center">
+         <img src="/public/demo4.png" width="400" alt="Modo Escuro" />
       </td>
    </tr>
 </table>
