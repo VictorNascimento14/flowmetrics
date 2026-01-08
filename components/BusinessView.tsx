@@ -3,25 +3,89 @@ import React, { useMemo } from 'react';
 import { TrendingUp, UserPlus, Zap, Globe, Rocket, PieChart as PieIcon, ChevronUp } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import { BUSINESS_TREND_DATA, SOURCE_DISTRIBUTION } from '../constants.ts';
+import { StudyFlowKPIs } from '../services/kpiService';
 
 interface BusinessViewProps {
   multiplier: number;
+  studyFlowKpis: StudyFlowKPIs | null;
+  periodId: string;
+  periodName: string;
 }
 
-export const BusinessView: React.FC<BusinessViewProps> = ({ multiplier }) => {
+export const BusinessView: React.FC<BusinessViewProps> = ({ multiplier, studyFlowKpis, periodId, periodName }) => {
   const dynamicTrend = useMemo(() => {
+    // Use real data if available, otherwise use static scaled data
+    if (studyFlowKpis?.userAcquisitionTrend && studyFlowKpis.userAcquisitionTrend.length > 0) {
+      return studyFlowKpis.userAcquisitionTrend;
+    }
+
     return BUSINESS_TREND_DATA.map(item => ({
       ...item,
       newUsers: Math.round(item.newUsers * multiplier)
     }));
-  }, [multiplier]);
+  }, [multiplier, studyFlowKpis]);
 
-  const stats = useMemo(() => [
-    { label: 'Novos Usuários / Dia', value: Math.round(42 * multiplier).toLocaleString(), icon: UserPlus, color: 'text-indigo-400', sub: '+18% vs ontem' },
-    { label: 'Crescimento Semanal', value: `+${(24.8 * (0.9 + Math.random() * 0.2)).toFixed(1)}%`, icon: Rocket, color: 'text-violet-400', sub: 'Tendência de alta' },
-    { label: 'Taxa de Ativação', value: `${(62.4 * (0.9 + Math.random() * 0.2)).toFixed(1)}%`, icon: Zap, color: 'text-yellow-400', sub: 'Média de mercado: 40%' },
-    { label: 'Feature Core #1', value: 'Resumo IA', icon: Globe, color: 'text-pink-400', sub: '85% usam no 1º dia' },
-  ], [multiplier]);
+  const stats = useMemo(() => {
+    // Determine context for subtexts
+    let periodLabel = 'no período';
+    let comparisonLabel = 'período anterior';
+
+    if (periodId === 'hoje') {
+      periodLabel = 'hoje';
+      comparisonLabel = 'ontem';
+    } else if (periodId === 'semana') {
+      periodLabel = 'esta semana';
+      comparisonLabel = 'semana anterior';
+    } else if (periodId === 'mes') {
+      periodLabel = 'este mês';
+      comparisonLabel = 'mês anterior';
+    }
+
+    return [
+      {
+        label: `Novos Usuários / ${periodName.split(' ')[1] || periodName}`,
+        value: studyFlowKpis ? studyFlowKpis.periodUsers.toLocaleString() : Math.round(42 * multiplier).toLocaleString(),
+        realValue: studyFlowKpis?.periodUsers || null,
+        icon: UserPlus,
+        color: 'text-indigo-400',
+        sub: studyFlowKpis
+          ? `${studyFlowKpis.periodGrowth >= 0 ? '+' : ''}${studyFlowKpis.periodGrowth.toFixed(1)}% vs ${comparisonLabel}`
+          : '+18% vs ontem'
+      },
+      {
+        label: 'Crescimento',
+        value: studyFlowKpis
+          ? `${studyFlowKpis.periodGrowth >= 0 ? '+' : ''}${studyFlowKpis.periodGrowth.toFixed(1)}%`
+          : `+${(24.8 * (0.9 + Math.random() * 0.2)).toFixed(1)}%`,
+        realValue: studyFlowKpis?.periodGrowth || null,
+        icon: Rocket,
+        color: 'text-violet-400',
+        sub: studyFlowKpis
+          ? (studyFlowKpis.periodGrowth > 0 ? 'Tendência de alta' : 'Tendência de baixa')
+          : 'Tendência de alta'
+      },
+      {
+        label: 'Taxa de Ativação',
+        value: studyFlowKpis
+          ? `${studyFlowKpis.activationRate.toFixed(1)}%`
+          : `${(62.4 * (0.9 + Math.random() * 0.2)).toFixed(1)}%`,
+        realValue: studyFlowKpis?.activationRate || null,
+        icon: Zap,
+        color: 'text-yellow-400',
+        sub: studyFlowKpis
+          ? `${studyFlowKpis.activationRate > 40 ? 'Acima da' : 'Abaixo da'} média (40%)`
+          : 'Média de mercado: 40%'
+      },
+      {
+        label: 'Feature Core #1',
+        value: 'Resumo IA',
+        realValue: null,
+        icon: Globe,
+        color: 'text-pink-400',
+        sub: '85% usam no 1º dia'
+      },
+    ];
+  }, [multiplier, studyFlowKpis]);
 
   return (
     <div className="space-y-6">
@@ -33,11 +97,16 @@ export const BusinessView: React.FC<BusinessViewProps> = ({ multiplier }) => {
                 <stat.icon size={20} />
               </div>
               <div className="flex items-center gap-1 text-green-500 text-[10px] font-bold">
-                 <ChevronUp size={12} /> {i === 2 ? 'Explosivo' : 'Top'}
+                <ChevronUp size={12} /> {i === 2 ? 'Explosivo' : 'Top'}
               </div>
             </div>
             <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">{stat.label}</p>
-            <p className="text-2xl font-bold text-white transition-all duration-300">{stat.value}</p>
+            <p
+              className="text-2xl font-bold text-white transition-all duration-300 cursor-help"
+              title={stat.realValue !== null ? `Dados em tempo real: ${stat.value}` : 'Dados estáticos'}
+            >
+              {stat.value}
+            </p>
             <p className="text-[10px] text-gray-500 mt-2">{stat.sub}</p>
           </div>
         ))}
@@ -62,11 +131,11 @@ export const BusinessView: React.FC<BusinessViewProps> = ({ multiplier }) => {
               <AreaChart data={dynamicTrend}>
                 <defs>
                   <linearGradient id="colorNew" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: '#6b7280', fontSize: 12}} dy={10} />
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} dy={10} />
                 <YAxis hide />
                 <Tooltip contentStyle={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '12px' }} itemStyle={{ color: '#fff' }} />
                 <Area type="monotone" dataKey="newUsers" stroke="#6366f1" fillOpacity={1} fill="url(#colorNew)" strokeWidth={3} />

@@ -3,9 +3,11 @@ import React, { useMemo } from 'react';
 import { BookOpen, CheckCircle2, FileJson, CalendarDays, Timer, LineChart, BrainCircuit } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import { LEARNING_TREND_DATA } from '../constants.ts';
+import { StudyFlowKPIs } from '../services/kpiService';
 
 interface LearningViewProps {
   multiplier: number;
+  studyFlowKpis: StudyFlowKPIs | null;
 }
 
 const LEARNING_PIE = [
@@ -13,7 +15,7 @@ const LEARNING_PIE = [
   { name: 'Em Aberto', value: 28, color: '#1f2937' },
 ];
 
-export const LearningView: React.FC<LearningViewProps> = ({ multiplier }) => {
+export const LearningView: React.FC<LearningViewProps> = ({ multiplier, studyFlowKpis }) => {
   const dynamicTrend = useMemo(() => {
     return LEARNING_TREND_DATA.map(item => ({
       ...item,
@@ -23,11 +25,39 @@ export const LearningView: React.FC<LearningViewProps> = ({ multiplier }) => {
   }, [multiplier]);
 
   const stats = useMemo(() => [
-    { label: 'Aulas Concluídas', value: Math.round(1240 * multiplier).toLocaleString(), icon: CheckCircle2, color: 'text-emerald-400', sub: '+12% vs mês anterior' },
-    { label: 'Resumos Gerados', value: Math.round(852 * multiplier).toLocaleString(), icon: BrainCircuit, color: 'text-cyan-400', sub: '92% de satisfação' },
-    { label: 'Planos Criados', value: Math.round(315 * multiplier).toLocaleString(), icon: CalendarDays, color: 'text-blue-400', sub: 'Média 2.4/usuário' },
-    { label: 'Tempo Médio Plano', value: `${(4.2 * (0.95 + Math.random() * 0.1)).toFixed(1)} dias`, icon: Timer, color: 'text-amber-400', sub: '-15% tempo de conclusão' },
-  ], [multiplier]);
+    {
+      label: 'Aulas Concluídas',
+      value: Math.round(1240 * multiplier).toLocaleString(),
+      realValue: null,
+      icon: CheckCircle2,
+      color: 'text-emerald-400',
+      sub: '+12% vs mês anterior'
+    },
+    {
+      label: 'Resumos Gerados',
+      value: studyFlowKpis?.summariesGenerated.toLocaleString() || Math.round(852 * multiplier).toLocaleString(),
+      realValue: studyFlowKpis?.summariesGenerated || null,
+      icon: BrainCircuit,
+      color: 'text-cyan-400',
+      sub: studyFlowKpis ? `${studyFlowKpis.summariesGenerated} cliques registrados` : '92% de satisfação'
+    },
+    {
+      label: 'Planos Criados',
+      value: studyFlowKpis?.planGenerations.toLocaleString() || Math.round(315 * multiplier).toLocaleString(),
+      realValue: studyFlowKpis?.planGenerations || null,
+      icon: CalendarDays,
+      color: 'text-blue-400',
+      sub: studyFlowKpis ? `${studyFlowKpis.planGenerations} criações registradas` : 'Média 2.4/usuário'
+    },
+    {
+      label: 'Tempo Médio Plano',
+      value: studyFlowKpis ? `${studyFlowKpis.avgPlanDuration.toFixed(1)} dias` : `${(4.2 * (0.95 + Math.random() * 0.1)).toFixed(1)} dias`,
+      realValue: studyFlowKpis?.avgPlanDuration || null,
+      icon: Timer,
+      color: 'text-amber-400',
+      sub: studyFlowKpis ? `Baseado em ${studyFlowKpis.totalPlans} planos` : '-15% tempo de conclusão'
+    },
+  ], [multiplier, studyFlowKpis]);
 
   return (
     <div className="space-y-6">
@@ -40,7 +70,12 @@ export const LearningView: React.FC<LearningViewProps> = ({ multiplier }) => {
               </div>
               <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{stat.label}</p>
             </div>
-            <p className="text-2xl font-bold text-white mb-1 transition-all duration-300">{stat.value}</p>
+            <p
+              className="text-2xl font-bold text-white mb-1 transition-all duration-300 cursor-help"
+              title={stat.realValue !== null ? `Dados em tempo real: ${stat.realValue}${stat.label === 'Tempo Médio Plano' ? ' dias' : ' cliques'}` : 'Dados estáticos'}
+            >
+              {stat.value}
+            </p>
             <p className="text-[10px] text-gray-500 font-medium">{stat.sub}</p>
           </div>
         ))}
@@ -64,11 +99,11 @@ export const LearningView: React.FC<LearningViewProps> = ({ multiplier }) => {
               <AreaChart data={dynamicTrend}>
                 <defs>
                   <linearGradient id="colorConcluded" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: '#6b7280', fontSize: 12}} dy={10} />
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} dy={10} />
                 <YAxis hide />
                 <Tooltip contentStyle={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '12px' }} itemStyle={{ color: '#fff' }} />
                 <Area type="step" dataKey="concluded" stroke="#10b981" fillOpacity={1} fill="url(#colorConcluded)" strokeWidth={3} />
@@ -95,11 +130,11 @@ export const LearningView: React.FC<LearningViewProps> = ({ multiplier }) => {
             </div>
           </div>
           <div className="mt-4 space-y-2 w-full">
-             <div className="flex justify-between items-center bg-gray-900/50 p-3 rounded-xl border border-gray-800">
-                <span className="text-xs text-gray-400 font-medium">Retenção após Plano</span>
-                <span className="text-xs text-white font-bold">88%</span>
-             </div>
-             <p className="text-[10px] text-gray-500 text-center italic">Usuários que criam planos voltam 3x mais.</p>
+            <div className="flex justify-between items-center bg-gray-900/50 p-3 rounded-xl border border-gray-800">
+              <span className="text-xs text-gray-400 font-medium">Retenção após Plano</span>
+              <span className="text-xs text-white font-bold">88%</span>
+            </div>
+            <p className="text-[10px] text-gray-500 text-center italic">Usuários que criam planos voltam 3x mais.</p>
           </div>
         </div>
       </div>
