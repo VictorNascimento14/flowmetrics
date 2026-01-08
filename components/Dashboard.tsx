@@ -27,6 +27,7 @@ import { BusinessView } from './BusinessView.tsx';
 import { kpiService, StudyFlowKPIs } from '../services/kpiService';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
+import { PythonStatus } from './PythonStatus';
 
 type SubTab = 'Panorama' | 'Engajamento' | 'Aprendizado' | 'Negócio';
 type MetricType = 'meetings' | 'hours';
@@ -522,6 +523,9 @@ export const Dashboard: React.FC = () => {
       )}
       {subTab === 'Panorama' && (
         <div className="grid grid-cols-12 gap-6 pb-8">
+          <div className="col-span-12">
+            <PythonStatus />
+          </div>
           <div className="col-span-12 lg:col-span-8 bg-card-dark border border-gray-800 rounded-2xl p-6 relative overflow-hidden shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
             <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none -z-10" />
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
