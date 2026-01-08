@@ -395,34 +395,36 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
-        <div className="flex bg-card-dark border border-gray-800 p-1 rounded-xl overflow-x-auto max-w-full">
+        <div className="flex bg-card-dark border border-gray-800 p-1 rounded-xl w-full md:w-auto">
           {(['Panorama', 'Engajamento', 'Aprendizado', 'Negócio'] as SubTab[]).map(tab => (
             <button
               key={tab}
               onClick={() => setSubTab(tab)}
-              className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${subTab === tab ? 'bg-gray-800 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+              className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 px-2 md:px-4 py-2 text-[11px] md:text-xs font-bold rounded-lg transition-all whitespace-nowrap ${subTab === tab ? 'bg-gray-800 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
             >
-              {tab === 'Panorama' && <LayoutGrid size={14} />}
-              {tab === 'Engajamento' && <Activity size={14} />}
-              {tab === 'Aprendizado' && <GraduationCap size={14} />}
-              {tab === 'Negócio' && <Briefcase size={14} />}
+              <span className="hidden sm:inline">
+                {tab === 'Panorama' && <LayoutGrid size={14} />}
+                {tab === 'Engajamento' && <Activity size={14} />}
+                {tab === 'Aprendizado' && <GraduationCap size={14} />}
+                {tab === 'Negócio' && <Briefcase size={14} />}
+              </span>
               {tab}
             </button>
           ))}
         </div>
 
-        <div className="flex gap-3">
-          <div className="relative" ref={projectDropdownRef}>
+        <div className="flex flex-wrap gap-3 w-full md:w-auto">
+          <div className="relative flex-1 md:flex-none" ref={projectDropdownRef}>
             <button
               onClick={() => { setIsProjectMenuOpen(!isProjectMenuOpen); setIsDateMenuOpen(false); setIsDownloadMenuOpen(false); }}
-              className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-xs font-semibold transition-all ${isProjectMenuOpen ? 'bg-primary/10 border-primary text-primary shadow-lg shadow-primary/10' : 'bg-card-dark border-gray-800 text-gray-400 hover:text-white'}`}
+              className={`w-full md:w-auto flex items-center gap-2 px-4 py-2 border rounded-lg text-xs font-semibold transition-all ${isProjectMenuOpen ? 'bg-primary/10 border-primary text-primary shadow-lg shadow-primary/10' : 'bg-card-dark border-gray-800 text-gray-400 hover:text-white'}`}
             >
               <Briefcase size={14} />
               <span className="max-w-[120px] truncate">{currentProject.name}</span>
               <ChevronDown size={14} className={`transition-transform duration-300 ${isProjectMenuOpen ? 'rotate-180' : ''}`} />
             </button>
             {isProjectMenuOpen && (
-              <div className="absolute top-full right-0 mt-2 w-56 bg-card-dark border border-gray-800 rounded-xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full left-0 md:right-0 md:left-auto mt-2 w-full md:w-56 bg-card-dark border border-gray-800 rounded-xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="px-3 py-2 border-bottom border-gray-800 mb-1">
                   <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Selecionar Origem</p>
                 </div>
@@ -440,17 +442,17 @@ export const Dashboard: React.FC = () => {
             )}
           </div>
 
-          <div className="relative" ref={dateDropdownRef}>
+          <div className="relative flex-1 md:flex-none" ref={dateDropdownRef}>
             <button
               onClick={() => { setIsDateMenuOpen(!isDateMenuOpen); setIsProjectMenuOpen(false); setIsDownloadMenuOpen(false); }}
-              className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-xs font-semibold transition-all ${isDateMenuOpen ? 'bg-blue-500/10 border-blue-500 text-blue-400 shadow-lg shadow-blue-500/10' : 'bg-card-dark border-gray-800 text-gray-400 hover:text-white'}`}
+              className={`w-full md:w-auto flex items-center gap-2 px-4 py-2 border rounded-lg text-xs font-semibold transition-all ${isDateMenuOpen ? 'bg-blue-500/10 border-blue-500 text-blue-400 shadow-lg shadow-blue-500/10' : 'bg-card-dark border-gray-800 text-gray-400 hover:text-white'}`}
             >
               <Calendar size={14} />
               <span>{currentDateRange.name}</span>
               <ChevronDown size={14} className={`transition-transform duration-300 ${isDateMenuOpen ? 'rotate-180' : ''}`} />
             </button>
             {isDateMenuOpen && (
-              <div className="absolute top-full right-0 mt-2 w-48 bg-card-dark border border-gray-800 rounded-xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full left-0 md:right-0 md:left-auto mt-2 w-full md:w-48 bg-card-dark border border-gray-800 rounded-xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="px-3 py-2 border-bottom border-gray-800 mb-1">
                   <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Período</p>
                 </div>
@@ -471,17 +473,17 @@ export const Dashboard: React.FC = () => {
             )}
           </div>
 
-          <div className="relative" ref={downloadDropdownRef}>
+          <div className="relative w-auto" ref={downloadDropdownRef}>
             <button
               onClick={() => { setIsDownloadMenuOpen(!isDownloadMenuOpen); setIsDateMenuOpen(false); setIsProjectMenuOpen(false); }}
               disabled={isExporting}
-              className={`flex items-center justify-center w-9 h-9 border rounded-lg transition-all ${isDownloadMenuOpen ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400 shadow-lg shadow-emerald-500/10' : 'bg-card-dark border-gray-800 text-gray-400 hover:text-white hover:border-gray-600'} ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`flex items-center justify-center w-10 h-10 border rounded-lg transition-all ${isDownloadMenuOpen ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400 shadow-lg shadow-emerald-500/10' : 'bg-card-dark border-gray-800 text-gray-400 hover:text-white hover:border-gray-600'} ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
               title="Baixar relatório"
             >
-              {isExporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+              {isExporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
             </button>
             {isDownloadMenuOpen && (
-              <div className="absolute top-full right-0 mt-2 w-64 bg-card-dark border border-gray-800 rounded-xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full right-0 mt-2 w-72 md:w-64 bg-card-dark border border-gray-800 rounded-xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="px-3 py-2 border-bottom border-gray-800 mb-1">
                   <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Exportar Relatório</p>
                 </div>
@@ -526,30 +528,30 @@ export const Dashboard: React.FC = () => {
           <div className="col-span-12">
             <PythonStatus />
           </div>
-          <div className="col-span-12 lg:col-span-8 bg-card-dark border border-gray-800 rounded-2xl p-6 relative overflow-hidden shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
+          <div className="col-span-12 lg:col-span-8 bg-card-dark border border-gray-800 rounded-2xl p-4 md:p-6 relative overflow-hidden shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
             <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none -z-10" />
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 md:mb-8">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-primary/10 text-primary"><TrendingUp size={20} /></div>
-                <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                    Estatísticas: <span className="text-primary">{currentProject.name}</span>
+                <div className="min-w-0">
+                  <h3 className="text-base md:text-lg font-bold text-white tracking-tight flex items-center gap-2 flex-wrap">
+                    Estatísticas: <span className="text-primary truncate">{currentProject.name}</span>
                   </h3>
                   <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest mt-0.5">
                     Período: <span className="text-blue-400">{currentDateRange.name}</span> • Amostra: {selectedDataPoint.name}
                   </p>
                 </div>
               </div>
-              <div className="flex bg-black/40 p-1 rounded-xl">
+              <div className="flex bg-black/40 p-1 rounded-xl w-full md:w-auto">
                 {(['meetings', 'hours'] as MetricType[]).map(type => (
-                  <button key={type} onClick={() => setMetricType(type)} className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${metricType === type ? 'bg-gray-800 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>
+                  <button key={type} onClick={() => setMetricType(type)} className={`flex-1 md:flex-none px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${metricType === type ? 'bg-gray-800 text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>
                     {type === 'meetings' ? 'Sessões' : 'Horas'}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               <div className="space-y-4">
                 {currentProject.id === 'studyflow' && studyFlowKpis ? (
                   <>
@@ -604,9 +606,9 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
+          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-4 md:p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
             <div className="flex items-center gap-2 mb-6 text-gray-400 font-bold text-sm uppercase tracking-widest">
-              <MonitorSmartphone size={18} /> Acesso por Dispositivo
+              <MonitorSmartphone size={18} /> <span className="hidden sm:inline">Acesso por Dispositivo</span><span className="sm:hidden">Dispositivos</span>
             </div>
             <div className="space-y-6">
               {(studyFlowKpis?.deviceStats || displayData.platforms).map((stat) => (
@@ -639,7 +641,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
 
-          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
+          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-4 md:p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
             <h3 className="text-sm font-bold text-white mb-6 flex items-center gap-2 uppercase tracking-widest"><Smile size={18} className="text-gray-400" /> Nível de Satisfação</h3>
             <div className="flex items-center justify-between">
               <div className="space-y-4">
@@ -662,7 +664,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
+          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-4 md:p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
             <h3 className="text-sm font-bold text-white mb-6 flex items-center gap-2 uppercase tracking-widest"><Clock size={18} className="text-gray-400" /> Tempo de Estudo</h3>
             <div className="space-y-5">
               {(currentProject.id === 'studyflow' && studyFlowKpis?.userMetrics ? studyFlowKpis.userMetrics : displayData.users).map(user => (
@@ -675,7 +677,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
+          <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-4 md:p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
             <h3 className="text-sm font-bold text-white mb-6 flex items-center gap-2 uppercase tracking-widest"><Mic2 size={18} className="text-gray-400" /> Foco: Vídeo / Leitura</h3>
             <div className="space-y-5">
               {(currentProject.id === 'studyflow' && studyFlowKpis?.userMetrics ? studyFlowKpis.userMetrics : displayData.users).map(user => {

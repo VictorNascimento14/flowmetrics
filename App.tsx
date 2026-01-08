@@ -17,7 +17,7 @@ const App: React.FC = () => {
         
         <Header activeTab={activeTab} />
         
-        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+        <div className="flex-1 overflow-y-auto p-3 md:p-8">
           {activeTab === 'Início' && <HomeDashboard />}
           {activeTab === 'Análises' && <Dashboard />}
           {activeTab !== 'Início' && activeTab !== 'Análises' && (

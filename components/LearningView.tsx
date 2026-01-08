@@ -81,8 +81,8 @@ export const LearningView: React.FC<LearningViewProps> = ({ multiplier, studyFlo
         ))}
       </div>
 
-      <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 lg:col-span-8 bg-card-dark border border-gray-800 rounded-2xl p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
+      <div className="grid grid-cols-12 gap-4 md:gap-6">
+        <div className="col-span-12 lg:col-span-8 bg-card-dark border border-gray-800 rounded-2xl p-4 md:p-6 shadow-xl hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
@@ -112,7 +112,7 @@ export const LearningView: React.FC<LearningViewProps> = ({ multiplier, studyFlo
           </div>
         </div>
 
-        <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-6 shadow-xl flex flex-col items-center justify-center hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
+        <div className="col-span-12 lg:col-span-4 bg-card-dark border border-gray-800 rounded-2xl p-4 md:p-6 shadow-xl flex flex-col items-center justify-center hover:border-primary/50 hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] transition-all duration-300">
           <h3 className="text-xs font-bold text-gray-500 mb-6 uppercase tracking-widest w-full text-center">Taxa de Conclusão Global</h3>
           <div className="relative w-48 h-48">
             <ResponsiveContainer width="100%" height="100%">
