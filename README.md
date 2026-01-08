@@ -9,8 +9,8 @@
 
 <table>
    <tr>
+      <th>Métricas básicas</th>
       <th>Dashboard</th>
-      <th>Planejador</th>
    </tr>
    <tr>
       <td align="center">
@@ -21,20 +21,20 @@
       </td>
    </tr>
    <tr>
-      <th>Cursos</th>
-      <th>Modo Escuro</th>
+      <th>Métricas de Engajamento</th>
+      <th>Métricas do Negócio</th>
    </tr>
    <tr>
       <td align="center">
-         <img src="/public/demo3.png" width="400" alt="Cursos" />
+         <img src="/public/demo5.png" width="400" alt="Cursos" />
       </td>
       <td align="center">
-         <img src="/public/demo4.png" width="400" alt="Modo Escuro" />
+         <img src="/public/demo6.png" width="400" alt="Modo Escuro" />
       </td>
    </tr>
   <tr>
-      <th>Cursos</th>
-      <th>Modo Escuro</th>
+      <th>PDF com métricas</th>
+      <th>Planilha de Excel com Métricas</th>
    </tr>
    <tr>
       <td align="center">
@@ -63,12 +63,18 @@ Como Analista de Dados, atuei em todo o ciclo de dados: desde a integração e l
 
 ## Tecnologias Utilizadas
 
-- Node.js
-- Gemini API
-- JavaScript/TypeScript
+- React 19 (com Hooks)
+- TypeScript (Linguagem)
+- Vite (Build tool e servidor de desenvolvimento)
+- Tailwind CSS (via CDN no index.html)
+- CSS Modules/Custom CSS (index.css para temas e animações)
+- Supabase (Banco de dados Postgres, Autenticação, APIs)
 - Power BI
 - Python
-- [Adicione outras tecnologias relevantes: SQL, etc.]
+- Lucide React: Para os ícones da interface.
+- XLSX: Para exportação de relatórios em Excel.
+- jsPDF: Para exportação de relatórios em PDF.
+
 
 ## Como Executar Localmente
 
@@ -78,20 +84,10 @@ Como Analista de Dados, atuei em todo o ciclo de dados: desde a integração e l
    ```
    npm install
    ```
-2. Configure sua chave da Gemini API em `.env.local`:
-   ```
-   GEMINI_API_KEY=SuaChaveAqui
-   ```
-3. Execute o app:
+2. Execute o app:
    ```
    npm run dev
    ```
 
-## Deploy
-
-Veja o app em produção:  
-[AI Studio - Flowmetrics](https://ai.studio/apps/drive/1j3n3MqzdnjMJrkNxA22XI1wdib2Moh2h)
-
----
-
-> Substitua `CAMINHO/IMAGEMX.png` pelos caminhos reais das imagens de demonstração.
+## Autoria
+Victor Nascimento
